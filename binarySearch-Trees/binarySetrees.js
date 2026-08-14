@@ -6,12 +6,56 @@ class Node {
   }
 }
 
-class Tree {
+export class Tree {
   constructor(array) {
     this.root = buildTree(array);
   }
 
-  insert() {}
+  includes(value) {
+    let current = this.root;
+
+    while (current !== null) {
+      if (value === current.data) {
+        return true;
+      }
+
+      if (value < current.data) {
+        current = current.left;
+      } else {
+        current = current.right;
+      }
+    }
+
+    return false;
+  }
+
+  insert(value) {
+    let newNode = new Node(value);
+
+    let pointer = this.root;
+
+    while(pointer !== null){
+
+      if(value === pointer.data) return;
+
+      if(value < pointer.data){
+        if(pointer.left === null){
+          pointer.left = newNode;
+        }
+        else{
+          pointer = pointer.left;
+        }
+      } else if(value > pointer.data) {
+          if(pointer.right === null){
+            pointer.right = newNode;
+          }
+          else{
+            pointer = pointer.right
+          }
+      }
+
+    }
+  }
 
   deleteItem(value) {}
 
