@@ -34,30 +34,89 @@ export class Tree {
 
     let pointer = this.root;
 
-    while(pointer !== null){
+    while (pointer !== null) {
+      if (value === pointer.data) return;
 
-      if(value === pointer.data) return;
-
-      if(value < pointer.data){
-        if(pointer.left === null){
+      if (value < pointer.data) {
+        if (pointer.left === null) {
           pointer.left = newNode;
-        }
-        else{
+        } else {
           pointer = pointer.left;
         }
-      } else if(value > pointer.data) {
-          if(pointer.right === null){
-            pointer.right = newNode;
-          }
-          else{
-            pointer = pointer.right
-          }
+      } else if (value > pointer.data) {
+        if (pointer.right === null) {
+          pointer.right = newNode;
+        } else {
+          pointer = pointer.right;
+        }
       }
-
     }
   }
 
-  deleteItem(value) {}
+  deleteItem(value) {
+    let parent = this.root;
+
+    let current = this.root;
+
+    while (current !== null) {
+      if (current.data === value) {
+        if (current.left === null && current.right === null) {
+          const currentRoot =
+            current === this.root
+              ? (this.root = null)
+              : parent.left === current
+                ? (parent.left = null)
+                : (parent.right = null);
+          return currentRoot;
+          // if (current === this.root) {
+          //   this.root = null;
+          // } else {
+          //   if (parent.left === current) {
+          //     parent.left = null;
+          //   } else {
+          //     parent.right = null;
+          //   }
+          // }
+        } else if (current.left === null || current.right === null) {
+          const child = current.left !== null ? current.left : current.right;
+          const oneChild =
+            current === this.root
+              ? (this.root = child)
+              : parent.left === current
+                ? (parent.left = child)
+                : (parent.right = child);
+          return oneChild;
+          // if (current === this.root) {
+          //   this.root = child;
+          // } else {
+          //   if (parent.left === current) {
+          //     parent.left = child;
+          //   } else {
+          //     parent.right = child;
+          //   }
+          // }
+        } else {
+          let successor = current.right;
+          let succParent = current;
+
+          while (successor.left !== null) {
+            succParent = successor;
+            successor = successor.left;
+          }
+          current.data = successor.data;
+          if (succParent === current) {
+            current.right = successor.right;
+          } else {
+            succParent.left = successor.right;
+          }
+          return;
+        }
+      } else {
+        parent = current;
+        current = value < current.data ? current.left : current.right;
+      }
+    }
+  }
 
   levelOrderForEach(callBack) {}
 
@@ -85,7 +144,7 @@ function buildTree(array) {
 
   const findMid = Math.floor(sortedArray.length / 2);
 
-  const newNode = new Node(array[findMid]);
+  const newNode = new Node(sortedArray[findMid]);
 
   newNode.left = buildTree(sortedArray.slice(0, findMid));
 
