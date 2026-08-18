@@ -68,15 +68,6 @@ export class Tree {
                 ? (parent.left = null)
                 : (parent.right = null);
           return currentRoot;
-          // if (current === this.root) {
-          //   this.root = null;
-          // } else {
-          //   if (parent.left === current) {
-          //     parent.left = null;
-          //   } else {
-          //     parent.right = null;
-          //   }
-          // }
         } else if (current.left === null || current.right === null) {
           const child = current.left !== null ? current.left : current.right;
           const oneChild =
@@ -86,15 +77,6 @@ export class Tree {
                 ? (parent.left = child)
                 : (parent.right = child);
           return oneChild;
-          // if (current === this.root) {
-          //   this.root = child;
-          // } else {
-          //   if (parent.left === current) {
-          //     parent.left = child;
-          //   } else {
-          //     parent.right = child;
-          //   }
-          // }
         } else {
           let successor = current.right;
           let succParent = current;
@@ -118,21 +100,34 @@ export class Tree {
     }
   }
 
-  levelOrderForEach(callBack) {}
+  levelOrderForEach(callBack) {
 
-  inOrderForEach(callBack) {}
+    if(callBack === undefined) throw new Error("Callback required");
 
-  preOrderForEach(callBack) {}
+    let Queue = [this.root];
 
-  postOrderForEach(callBack) {}
+    while (Queue.length > 0) {
+      const node = Queue.shift();
+      callBack(node.data);
 
-  height(value) {}
+      if (node.left !== null) Queue.push(node.left);
+      if (node.right !== null) Queue.push(node.right);
+    }
+  }
 
-  depth(value) {}
+  // inOrderForEach(callBack) {}
 
-  isBalanced() {}
+  // preOrderForEach(callBack) {}
 
-  rebalance() {}
+  // postOrderForEach(callBack) {}
+
+  // height(value) {}
+
+  // depth(value) {}
+
+  // isBalanced() {}
+
+  // rebalance() {}
 }
 
 function buildTree(array) {
