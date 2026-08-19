@@ -101,8 +101,7 @@ export class Tree {
   }
 
   levelOrderForEach(callBack) {
-
-    if(callBack === undefined) throw new Error("Callback required");
+    if (callBack === undefined) throw new Error("Callback required");
 
     let Queue = [this.root];
 
@@ -115,11 +114,23 @@ export class Tree {
     }
   }
 
-  // inOrderForEach(callBack) {}
+  inOrderForEach(callBack) {
+    if (callBack === undefined) throw new Error("Callback required");
 
-  // preOrderForEach(callBack) {}
+    inOrder(this.root, callBack);
+  }
 
-  // postOrderForEach(callBack) {}
+  preOrderForEach(callBack) {
+    if (callBack === undefined) throw new Error("Callback required");
+
+    preOrder(this.root, callBack);
+  }
+
+  postOrderForEach(callBack) {
+    if (callBack === undefined) throw new Error("Callback required");
+
+    postOrder(this.root, callBack);
+  }
 
   // height(value) {}
 
@@ -128,6 +139,30 @@ export class Tree {
   // isBalanced() {}
 
   // rebalance() {}
+}
+
+function inOrder(root, callBack) {
+  if (root === null) return;
+
+  inOrder(root.left, callBack);
+  callBack(root.data);
+  inOrder(root.right, callBack);
+}
+
+function preOrder(root, callBack) {
+  if (root === null) return;
+
+  callBack(root.data);
+  preOrder(root.left, callBack);
+  preOrder(root.right, callBack);
+}
+
+function postOrder(root, callBack) {
+  if (root === null) return;
+
+  postOrder(root.left, callBack);
+  postOrder(root.right, callBack);
+  callBack(root.data);
 }
 
 function buildTree(array) {
