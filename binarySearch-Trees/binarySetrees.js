@@ -132,13 +132,53 @@ export class Tree {
     postOrder(this.root, callBack);
   }
 
-  // height(value) {}
+  height(value) {
+    let currentNode = this.root;
 
-  // depth(value) {}
+    while (currentNode !== null) {
+      if (value === currentNode.data) {
+        return heighHelper(currentNode);
+      } else {
+        if(value < currentNode.data){
+          currentNode = currentNode.left;
+        }
+        else{
+          currentNode = currentNode.right;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  depth(value) {
+    let currentNode = this.root;
+    let counter = 0;
+
+    while(currentNode !== null){
+      if(value === currentNode.data){
+         return counter;
+      } else if (value < currentNode.data){
+        currentNode = currentNode.left;
+        counter++;
+      }
+      else{
+        currentNode = currentNode.right;
+        counter++;
+      }
+    }
+    return undefined
+
+  }
 
   // isBalanced() {}
 
   // rebalance() {}
+}
+
+function heighHelper(node) {
+  if (node === null) return -1;
+
+  return 1 + Math.max(heighHelper(node.left), heighHelper(node.right));
 }
 
 function inOrder(root, callBack) {
