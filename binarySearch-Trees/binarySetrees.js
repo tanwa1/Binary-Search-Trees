@@ -137,12 +137,11 @@ export class Tree {
 
     while (currentNode !== null) {
       if (value === currentNode.data) {
-        return heighHelper(currentNode);
+        return heightOf(currentNode);
       } else {
-        if(value < currentNode.data){
+        if (value < currentNode.data) {
           currentNode = currentNode.left;
-        }
-        else{
+        } else {
           currentNode = currentNode.right;
         }
       }
@@ -154,31 +153,43 @@ export class Tree {
     let currentNode = this.root;
     let counter = 0;
 
-    while(currentNode !== null){
-      if(value === currentNode.data){
-         return counter;
-      } else if (value < currentNode.data){
+    while (currentNode !== null) {
+      if (value === currentNode.data) {
+        return counter;
+      } else if (value < currentNode.data) {
         currentNode = currentNode.left;
         counter++;
-      }
-      else{
+      } else {
         currentNode = currentNode.right;
         counter++;
       }
     }
-    return undefined
-
+    return undefined;
   }
 
-  // isBalanced() {}
+  isBalanced(node = this.root) {
+    if (node === null) return true;
 
-  // rebalance() {}
+    let left = heightOf(node.left);
+    let right = heightOf(node.right);
+
+    if (Math.abs(left - right) > 1) return false;
+    return this.isBalanced(node.left) && this.isBalanced(node.right);
+  }
+
+  rebalance() {
+
+    let array = [];
+
+    this.inOrderForEach(value => array.push(value));
+
+    return this.root = buildTree(array);
+  }
 }
 
-function heighHelper(node) {
-  if (node === null) return -1;
-
-  return 1 + Math.max(heighHelper(node.left), heighHelper(node.right));
+function heightOf(node){
+  const height = node === null ? 0 : 1 + Math.max(heightOf(node.left), heightOf(node.right));
+  return height;
 }
 
 function inOrder(root, callBack) {
